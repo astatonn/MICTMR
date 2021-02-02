@@ -2,56 +2,298 @@
 
 @section('title', 'Usuários')
 
-    {{-- @section('content_header')
-    <h3>Lista de Usuários</h3>
-    <ol class="breadcrumb">
-        <li>home</li>
+@section('adminlte_css')
+    @stack('css')
+    @yield('css')
 
-    </ol>
-    @stop --}}
-    {{--
-    1 - ADMIN
-    2 - USUÁRIO CONVENCIONAL
-    3 - TESOUREIRO
-    4 - VENERÁVEL
-    5 - SECRETÁRIO
-    --}}
+@stop
+
+@section('content_header')
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Lojas</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Lojas</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+@stop
+{{--
+1 - ADMIN
+2 - USUÁRIO CONVENCIONAL
+3 - TESOUREIRO
+4 - VENERÁVEL
+5 - SECRETÁRIO
+--}}
+
+{{-- ADMIN --}}
+@section('content')
+
+    <div class="row">
+        <div class="card-body">
+            <div class="card">
+                <div class="col-12">
+                    <div class="card-header">
+
+                        <a href="" class="btn btn-sm btn-outline-success card-title">
+                            <span class="fa fa-plus"> Inserir nova Loja</span>
+                        </a>
+
+                    </div>
+
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="lojas" class="table table-bordered table-striped dataTable dtr-inline"
+                                    role="grid" style="text-align: center">
+                                    <thead>
+                                        <tr role="row">
+                                            <th>Número</th>
+                                            <th>Título</th>
+                                            <th>Nome</th>
+                                            <th>Oriente</th>
+                                            <th><i class="fas fa-cog"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($lojas as $loja)
+                                            <tr role="row">
+
+                                                <td>{{ $loja->numero }}</td>
+                                                <td>{{ $loja->titulo }}</td>
+                                                <td>{{ $loja->nome }}</td>
+                                                <td>{{ $loja->oriente }}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                        <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        @endforeach
+                                        <tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr><tr role="row">
+
+                                            <td>{{ $loja->numero }}</td>
+                                            <td>{{ $loja->titulo }}</td>
+                                            <td>{{ $loja->nome }}</td>
+                                            <td>{{ $loja->oriente }}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <i class="fas fa-eye btn btn-sm btn-primary"></i>
+                                                    <i class="fas fa-edit btn btn-sm btn-warning"></i>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+
+                                            <th>Número</th>
+                                            <th>Título</th>
+                                            <th>Nome</th>
+                                            <th>Oriente</th>
+                                            <th><i class="fas fa-cog"></i></th>
+                                        </tr>
+                                    </tfoot>
+
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+        <!-- /.col -->
+
+        <!-- ./row -->
+    </div>
 
 
-    @if ($permission == 1)
-        {{-- ADMIN --}}
-        @section('content')
-        <div class="content-wrapper" style="min-height: 926px;">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-              <h1>
-                Data Tables
-                <small>advanced tables</small>
-              </h1>
-              <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Tables</a></li>
-                <li class="active">Data tables</li>
-              </ol>
-            </section>
-        
-            <!-- /.content -->
-          </div>
-        @endsection
-    @endif
 
-    @if ($permission == 2)
-        {{-- Usuário Convencional --}}
-    @endif
 
-    @if ($permission == 3)
-        {{-- Tesoureiro --}}
-    @endif
+@endsection
 
-    @if ($permission == 4)
-        {{-- Venerável --}}
-    @endif
+@section('js')
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json"></script>
+    <script>
+        $(document).ready(function() {
+            $('#lojas').DataTable({
+                dom: 'Bfrtilp',
+                responsive: 'true',
+                language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.10.22/i18n/Portuguese-Brasil.json',
+            },
+                buttons: [{
+                        extend: 'excelHtml5',
+                        className: 'btn btn-success ',
+                        text: '<i class="fas fa-file-excel "></i>',
+                        tittleAttr: 'Exportar para Excel',
 
-    @if ($permission == 5)
-        {{-- Secretário --}}
-    @endif
+                    },
+
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fas fa-file-pdf "></i>',
+                        tittleAttr: 'Exportar para PDF',
+                        className: 'btn btn-danger',
+                        exportOptions: {
+                            modifier: {
+                                page: 'current'
+                            }
+                        }
+                    },
+
+                    {
+                        extend: 'print',
+                        text: '<i class="fa fa-print"></i>',
+                        tittleAttr: 'Imprimir',
+                        className: 'btn btn-info',
+                        exportOptions: {
+                            modifier: {
+                                page: 'current'
+                            }
+                        }
+                    },
+                ],
+                "pageLength": 10,
+
+            });
+            $('#lojas').removeClass('display').addClass('table table-striped table-bordered');
+        });
+
+    </script>
+@endsection
