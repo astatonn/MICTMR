@@ -32,8 +32,8 @@ return [
     |
     */
 
-    'use_ico_only' => true,
-    'use_full_favicon' => true,
+    'use_ico_only' => false,
+    'use_full_favicon' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
     */
 
     'logo' => '<b>M. I. C. T. M. R.</b>',
-    'logo_img' => '../resources/img/logo.png',
+    'logo_img' => './resources/img/logo.png',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -248,7 +248,7 @@ return [
         ],
         [
             'text' => 'Alterar Senha',
-            'url'  => 'admin/settings',
+            'url'  => 'password/reset',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
@@ -257,19 +257,14 @@ return [
             'submenu' => [
                 [
                     'text' => 'Visualizar',
-                    'url'  => '#',
+                    'url'  => '/lojas',
                     'icon' => 'fas fa-fw fa-eye'
                 ],
                 [
                     'text'    => 'Cadastrar',
-                    'url'     => '#',
+                    'url'     => '/nova_loja',
                     'icon' => 'fas fa-fw fa-plus'
            
-                ],
-                [
-                    'text' => 'Editar',
-                    'url'  => '#',
-                    'icon' => 'fas fa-fw fa-edit'
                 ],
             ],
         ],

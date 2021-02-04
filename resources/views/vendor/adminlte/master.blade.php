@@ -26,7 +26,7 @@
     @if(!config('adminlte.enabled_laravel_mix'))
         <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
-
+    
         {{-- Configured Stylesheets --}}
         @include('adminlte::plugins', ['type' => 'css'])
 
@@ -70,7 +70,7 @@
         <meta name="msapplication-TileColor" content="#ffffff">
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
     @endif
-
+    <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//wAA/n8AAPw/AAB5ngAAo8UAAMZjAACNsQAABSAAAOXnAADyTwAA+98AAPmfAAD8PwAA/n8AAP5/AAD//wAA" rel="icon" type="image/x-icon" />
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>

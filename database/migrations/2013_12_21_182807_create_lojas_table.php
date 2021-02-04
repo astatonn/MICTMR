@@ -19,6 +19,7 @@ class CreateLojasTable extends Migration
             $table->string('titulo');
             $table->string('nome');
             $table->string('oriente');
+            $table->string('imagem');
             $table->timestamps();
         });
     }

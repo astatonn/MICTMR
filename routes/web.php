@@ -102,10 +102,11 @@ Route::get('/ata_enviar/{id}',  [AtasController::class, 'ata_enviar'])->name('at
 //==============================================================================================
 // CADASTRAR NOVA LOJA
 Route::get('/nova_loja',  [LojasController::class, 'nova_loja'])->name('nova_loja');
-Route::get('/submit_nova_loja',  [LojasController::class, 'submit_nova_loja'])->name('submit_nova_loja');
+Route::post('/submit_nova_loja',  [LojasController::class, 'submit_nova_loja'])->name('submit_nova_loja');
 
 Route::get('/lojas',  [LojasController::class, 'index'])->name('lojas');
 
+Route::get('/ver_loja',  [LojasController::class, 'ver_loja'])->name('ver_loja');
 Route::get('/editar_loja',  [LojasController::class, 'editar_loja'])->name('editar_loja');
 Route::get('/submit_editar_loja',  [LojasController::class, 'submit_editar_loja'])->name('submit_editar_loja');
 

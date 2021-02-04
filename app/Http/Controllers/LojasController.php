@@ -5,37 +5,98 @@ namespace App\Http\Controllers;
 use App\Models\lojas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class LojasController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-
-    }
-    
-    // ==========================================================================
-    public function nova_loja()
-    {
-        echo 'teste';
     }
 
     // ==========================================================================
-    public function submit_nova_loja()
+    public function nova_loja(Request $request)
     {
-        echo 'teste';
+        $session = $request->session()->get("permissions");
+        if ($session == null || $session == 2) {
+            return redirect()->route('home');
+        }
+
+        return view('lojas.nova_loja');
+    }
+
+    // ==========================================================================
+    public function submit_nova_loja(Request $request)
+    {
+        $session = $request->session()->get("permissions");
+        if ($session == null) {
+            return redirect()->route('home');
+        }
+        $validate = $request->validate(
+            //rules
+            [
+                'imagem_loja'           => ['required','image', 'mimes:jpg,jpeg,png','max:512'],
+                'nome_loja'             => ['required', 'string', 'min:5', 'max:255'],
+                'numero_loja'           => ['required', 'string', 'min:1', 'max:10'],
+                'titulo_loja'           => ['required', 'string', 'min:2', 'max:10'],
+                'oriente_loja'           => ['required', 'string', 'min:5', 'max:255'],
+            ],
+            //messages
+            [
+                // ERROS DA IMAGEM
+                'imagem_loja.required'  => 'A imagem é obrigatória',
+                'imagem_loja.image'     => 'Deve enviar uma imagem no formato .jpg ou .png',
+                'imagem_loja.max'       => 'A imagem deve ter no máximo 512 Kb',
+
+                // ERROS DO NOME
+                'nome_loja.required'    => 'O nome é obrigatório',
+                'nome_loja.min'         => 'O nome deve ter no mínimo 5 caracteres',
+                'nome_loja.max'         => 'O nome deve ter no máximo 255 caracteres',
+
+                // ERROS DO NÚMERO DA LOJA
+                'numero_loja.required'    => 'O número é obrigatório',
+                'numero_loja.number'      => 'Apenas números são entradas válidas',
+                'numero_loja.min'         => 'O número deve ter no mínimo 1 caracter',
+                'numero_loja.max'         => 'O número deve ter no máximo 255 caracteres',
+
+                // ERROS DO TÍTULO
+                'titulo_loja.required'    => 'O título é obrigatório',
+                'titulo_loja.min'         => 'O título deve ter no mínimo 2 caracteres',
+                'titulo_loja.max'         => 'O título deve ter no máximo 10 caracteres',
+
+                // ERROS DO ORIENTE
+                'oriente_loja.required'    => 'O oriente é obrigatório',
+                'oriente_loja.min'         => 'O oriente deve ter no mínimo 5 caracteres',
+                'oriente_loja.max'         => 'O oriente deve ter no máximo 255 caracteres',
+            ]);
+        $nome_imagem = ($request->numero_loja . $request->titulo_loja . Str::kebab($request->nome_loja)) . '.jpg';
+        echo $nome_imagem;
+
+        // $upload = $request->imagem_loja->storeAs('public/images/lojas', $nome_imagem);
+        // if (!$upload){
+        //     return redirect()->back()->with('error', 'Falha no upload da Imagem');
+        // }
+        return redirect()->back();
+
+
     }
 
     // ==========================================================================
     public function index(Request $request)
-    {   
+    {
         $session = $request->session()->get("permissions");
         $lojas = lojas::all();
-        return view("lojas.index",
-        [
-            'permission'=>$session,
-            'lojas'=>$lojas       
-        ]);
+        if ($session == null) {
+            return redirect()->route('home');
+        }
+
+        return view(
+            "lojas.index",
+            [
+                'permission' => $session,
+                'lojas' => $lojas
+            ]
+        );
     }
 
     // ==========================================================================
@@ -50,4 +111,8 @@ class LojasController extends Controller
         echo 'teste';
     }
 
+    public function ver_loja()
+    {
+        echo 'teste';
+    }
 }
