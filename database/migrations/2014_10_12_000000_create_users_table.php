@@ -19,6 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('grau');
+            $table->tinyInteger('situacao');
+            $table->string('imagem');
             $table->tinyInteger('permissions')->nullable(); // REFERE-SE AS PERMISSÕES DE ACESSO DO USUÁRIO
             $table->rememberToken();
             // $table->foreignId('loja_id')->constrained('lojas'); // RELACIONAMENTO DA TABELA

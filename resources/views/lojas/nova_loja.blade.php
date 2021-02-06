@@ -97,9 +97,15 @@
                     </div>
 
                 @endif
-                
-                
-                
+                @if (Session::has('flash_success'))
+                    <li class="alert alert-success">Registro enviado com sucesso!</li>
+                @endif
+                @if (Session::has('flash_failed'))
+                    <li class="alert alert-danger">Registro duplicado, favor verificar</li>
+                @endif
+
+
+
 
 
             </div>
@@ -112,5 +118,3 @@
 
 
 @endsection
-
-

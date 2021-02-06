@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\lojas;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class LojasController extends Controller
@@ -32,10 +34,10 @@ class LojasController extends Controller
         if ($session == null) {
             return redirect()->route('home');
         }
-        $validate = $request->validate(
+        $request->validate(
             //rules
             [
-                'imagem_loja'           => ['required','image', 'mimes:jpg,jpeg,png','max:512'],
+                'imagem_loja'           => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:512'],
                 'nome_loja'             => ['required', 'string', 'min:5', 'max:255'],
                 'numero_loja'           => ['required', 'string', 'min:1', 'max:10'],
                 'titulo_loja'           => ['required', 'string', 'min:2', 'max:10'],
@@ -68,17 +70,42 @@ class LojasController extends Controller
                 'oriente_loja.required'    => 'O oriente é obrigatório',
                 'oriente_loja.min'         => 'O oriente deve ter no mínimo 5 caracteres',
                 'oriente_loja.max'         => 'O oriente deve ter no máximo 255 caracteres',
-            ]);
+            ]
+        );
+
         $nome_imagem = ($request->numero_loja . $request->titulo_loja . Str::kebab($request->nome_loja)) . '.jpg';
-        echo $nome_imagem;
-
-        // $upload = $request->imagem_loja->storeAs('public/images/lojas', $nome_imagem);
-        // if (!$upload){
-        //     return redirect()->back()->with('error', 'Falha no upload da Imagem');
-        // }
-        return redirect()->back();
 
 
+        // SALVAR IMAGEM NO STORAGE
+        $upload = $request->imagem_loja->storeAs('public/images/lojas', $nome_imagem);
+
+        if (!$upload) {
+            return redirect()->back()->with('error', 'Falha no upload da Imagem');
+        }
+
+        //VERIFICA SE EXISTE REGISTRO SEMELHANTE
+        
+        if(lojas::where('numero','=',$request->numero_loja)->exists() || lojas::where('nome','=',$request->nome_loja)->exists()){
+            $request->session()->flash('flash_failed', '!');
+            return redirect()->route('nova_loja');
+
+        }
+
+       lojas::firstOrCreate(
+            [
+                'numero'    => $request->numero_loja,
+            ],
+            [
+                'nome'      => $request->nome_loja,
+                'titulo'    => $request->titulo_loja,
+                'oriente'   => $request->oriente_loja,
+                'imagem'    => $nome_imagem
+            ]
+        );
+
+
+        $request->session()->flash('flash_success', '!');
+        return redirect()->route('nova_loja');
     }
 
     // ==========================================================================
@@ -111,8 +138,25 @@ class LojasController extends Controller
         echo 'teste';
     }
 
-    public function ver_loja()
-    {
-        echo 'teste';
+    public function ver_loja(Request $request, $id)
+    {       
+        $session = $request->session()->get("permissions");
+        if ($session == null ) {
+            return redirect()->route('home');
+        }
+
+        $decrypted = Crypt::decrypt($id);
+        $detalhesDaLoja = lojas::find($decrypted);
+        $listaUsuarios = User::where ('loja_id',$decrypted)->get();
+        $imagem_loja = asset('images/lojas/'.$detalhesDaLoja->imagem);
+
+
+        return view('lojas.detalhes_loja', [
+            'loja'      => $detalhesDaLoja,
+            'usuarios'  => $listaUsuarios,
+            'imagem'    => $imagem_loja,
+        ]);
+        
+       
     }
 }

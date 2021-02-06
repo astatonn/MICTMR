@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class lojas extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'nome', 'numero', 'titulo', 'imagem', 'oriente'
+    ];
 }

@@ -7,6 +7,9 @@
     @yield('css')
 
 @stop
+@php
+use Illuminate\Support\Facades\Crypt;
+@endphp
 
 @section('content_header')
     <div class="container-fluid">
@@ -16,7 +19,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{route('home')}}"> Home </a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}"> Home </a></li>
                     <li class="breadcrumb-item active">Lojas</li>
                 </ol>
             </div>
@@ -35,147 +38,153 @@
 @section('content')
 
     {{-- USUÁRIO CONVENCIONAL --}}
- 
+
     @if ($permission == 2)
 
-    <div class="row">
-        <div class="card-body">
-            <div class="card">
-                <div class="col-12">
-    
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table id="lojas" class="table table-bordered table-striped dataTable dtr-inline"
-                                    role="grid" style="text-align: center">
-                                    <thead>
-                                        <tr role="row">
-                                            <th>Número</th>
-                                            <th>Título</th>
-                                            <th>Nome</th>
-                                            <th>Oriente</th>
-                                            <th><i class="fas fa-cog"></i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($lojas as $loja)
+        <div class="row">
+            <div class="card-body">
+                <div class="card">
+                    <div class="col-12">
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="lojas" class="table table-bordered table-striped dataTable dtr-inline"
+                                        role="grid" style="text-align: center">
+                                        <thead>
                                             <tr role="row">
-    
-                                                <td>{{ $loja->numero }}</td>
-                                                <td>{{ $loja->titulo }}</td>
-                                                <td>{{ $loja->nome }}</td>
-                                                <td>{{ $loja->oriente }}</td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <a href="{{ route('ver_loja') }}"><i class="fas fa-eye btn btn-sm btn-primary"></i></a>
-                                                    </div>
-                                                </td>
-    
+                                                <th>Número</th>
+                                                <th>Título</th>
+                                                <th>Nome</th>
+                                                <th>Oriente</th>
+                                                <th><i class="fas fa-cog"></i></th>
                                             </tr>
-                                        @endforeach
-    
-    
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-    
-                                            <th>Número</th>
-                                            <th>Título</th>
-                                            <th>Nome</th>
-                                            <th>Oriente</th>
-                                            <th><i class="fas fa-cog"></i></th>
-                                        </tr>
-                                    </tfoot>
-    
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($lojas as $loja)
+                                                <tr role="row">
+
+                                                    <td>{{ $loja->numero }}</td>
+                                                    <td>{{ $loja->titulo }}</td>
+                                                    <td>{{ $loja->nome }}</td>
+                                                    <td>{{ $loja->oriente }}</td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a
+                                                                href="{{ route('ver_loja', ['id' => Crypt::encrypt($loja->id)]) }}"><i
+                                                                    class="fas fa-eye btn btn-sm btn-primary"></i></a>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            @endforeach
+
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+
+                                                <th>Número</th>
+                                                <th>Título</th>
+                                                <th>Nome</th>
+                                                <th>Oriente</th>
+                                                <th><i class="fas fa-cog"></i></th>
+                                            </tr>
+                                        </tfoot>
+
+                                    </table>
+                                </div>
                             </div>
+
                         </div>
-    
+                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card-body -->
                 </div>
             </div>
+            <!-- /.col -->
+
+            <!-- ./row -->
         </div>
-        <!-- /.col -->
-    
-        <!-- ./row -->
-    </div>
-    
-    {{-- DEMAIS USUÁRIOS --}}
+
+        {{-- DEMAIS USUÁRIOS --}}
 
     @else
-    <div class="row">
-        <div class="card-body">
-            <div class="card">
-                <div class="col-12">
-                    <div class="card-header">
-    
-                        <a href="{{ route('nova_loja') }}" class="btn btn-sm btn-outline-success card-title">
-                            <span class="fa fa-plus"> Inserir nova Loja</span>
-                        </a>
-    
-                    </div>
-    
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <table id="lojas" class="table table-bordered table-striped dataTable dtr-inline"
-                                    role="grid" style="text-align: center">
-                                    <thead>
-                                        <tr role="row">
-                                            <th>Número</th>
-                                            <th>Título</th>
-                                            <th>Nome</th>
-                                            <th>Oriente</th>
-                                            <th><i class="fas fa-cog"></i></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($lojas as $loja)
-                                            <tr role="row">
-    
-                                                <td>{{ $loja->numero }}</td>
-                                                <td>{{ $loja->titulo }}</td>
-                                                <td>{{ $loja->nome }}</td>
-                                                <td>{{ $loja->oriente }}</td>
-                                                <td>
-                                                    <div class="btn-group">
-                                                        <a href="{{ route('ver_loja') }}"><i class="fas fa-eye btn btn-sm btn-primary"></i></a>
-                                                        <a href="{{ route('editar_loja') }}"><i class="fas fa-edit btn btn-sm btn-warning"></i></a>
-                                                    </div>
-                                                </td>
-    
-                                            </tr>
-                                        @endforeach
-    
-    
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-    
-                                            <th>Número</th>
-                                            <th>Título</th>
-                                            <th>Nome</th>
-                                            <th>Oriente</th>
-                                            <th><i class="fas fa-cog"></i></th>
-                                        </tr>
-                                    </tfoot>
-    
-                                </table>
-                            </div>
+
+
+        <div class="row">
+            <div class="card-body">
+                <div class="card">
+                    <div class="col-12">
+                        <div class="card-header">
+
+                            <a href="{{ route('nova_loja') }}" class="btn btn-sm btn-outline-success card-title">
+                                <span class="fa fa-plus"> Inserir nova Loja</span>
+                            </a>
                         </div>
-    
+
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="lojas" class="table table-bordered table-striped dataTable dtr-inline"
+                                        role="grid" style="text-align: center">
+                                        <thead>
+                                            <tr role="row">
+                                                <th>Número</th>
+                                                <th>Título</th>
+                                                <th>Nome</th>
+                                                <th>Oriente</th>
+                                                <th><i class="fas fa-cog"></i></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($lojas as $loja)
+                                                <tr role="row">
+
+                                                    <td>{{ $loja->numero }}</td>
+                                                    <td>{{ $loja->titulo }}</td>
+                                                    <td>{{ $loja->nome }}</td>
+                                                    <td>{{ $loja->oriente }}</td>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <a
+                                                                href="{{ route('ver_loja', ['id' => Crypt::encrypt($loja->id)]) }}"><i
+                                                                    class="fas fa-eye btn btn-sm btn-primary"></i></a>
+                                                            <a href="{{ route('editar_loja') }}"><i
+                                                                    class="fas fa-edit btn btn-sm btn-warning"></i></a>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            @endforeach
+
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+
+                                                <th>Número</th>
+                                                <th>Título</th>
+                                                <th>Nome</th>
+                                                <th>Oriente</th>
+                                                <th><i class="fas fa-cog"></i></th>
+                                            </tr>
+                                        </tfoot>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card-body -->
                 </div>
             </div>
+            <!-- /.col -->
+
+            <!-- ./row -->
         </div>
-        <!-- /.col -->
-    
-        <!-- ./row -->
-    </div>
     @endif
 
 
