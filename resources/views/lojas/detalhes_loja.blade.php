@@ -53,11 +53,11 @@ use Illuminate\Support\Facades\Crypt;
 
                             <div class="col-8">
                                 <div class="row">
-                                    <div class="col-2">
+                                    <div class="col-4">
                                         <h4>Número </h4>
                                         {{ $loja->numero }}
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-4">
                                         <h4>Título</h4>
                                         {{ $loja->titulo }}
                                     </div>
@@ -68,26 +68,27 @@ use Illuminate\Support\Facades\Crypt;
                                         {{ $loja->nome }}
                                     </div>
                                 </div>
+                                <div class="col-12 mt-4">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h4>Oriente</h4>
+                                            {{ $loja->oriente }}
+                                        </div>
+                                        <div class="col-4">
+                                            <h4>Endereço</h4>
+                                            {{ $loja->endereco }}
+                                        </div>
+                                    </div>
+                                </div>
+    
                             </div>
                             <div class="col-4">
 
-                                <img src="{{ $imagem }}" alt="Foto da Loja" class="img-thumbnail rounded float-right"
+                                <img src="{{ asset("storage/images/lojas/$loja->imagem") }}" alt="Foto da Loja" class="img-thumbnail rounded float-right"
                                     height="200" width="200">
 
                             </div>
-                            <div class="col-8 mt-4">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <h4>Oriente</h4>
-                                        {{ $loja->oriente }}
-                                    </div>
-                                    <div class="col-4">
-                                        <h4>Endereço</h4>
-                                        {{ $loja->endereco }}
-                                    </div>
-                                </div>
-                            </div>
-
+                           
                         </div>
                         <hr>
                         <div class="card-header">

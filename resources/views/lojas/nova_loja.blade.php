@@ -70,6 +70,13 @@
                                 name="oriente_loja" placeholder="Ex.: Porto Alegre, RS">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="oriente_loja">Endereço: </label>
+                            <input type="text" class="form-control form-control-border" id="endereco_loja"
+                                name="endereco_loja" placeholder="Ex.: Rua dos Templário, 3">
+                        </div>
+                    </div>
                     <label for="imagem_loja">Imagem: </label>
                     <div class="input-group">
 

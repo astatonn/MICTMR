@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class saida_fins extends Model
 {
-    use HasFactory;
-
+    
+    protected $table = "saida_fins";
+    
     public function users()
     {
-        return $this->belongsToMany(users::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

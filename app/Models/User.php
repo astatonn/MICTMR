@@ -52,5 +52,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(lojas::class);
     }
+
     
 }

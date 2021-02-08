@@ -43,6 +43,8 @@ Route::get('/submit_entrada_fin',  [FinanceiroController::class, 'submit_entrada
 Route::get('/saida_fin',  [FinanceiroController::class, 'saida_fin'])->name('saida_fin');
 Route::get('/submit_saida_fin',  [FinanceiroController::class, 'submit_saida_fin'])->name('submit_saida_fin');
 
+Route::get('/ver_transacao/{id}', [FinanceiroController::class, 'ver_transacao'])->name('ver_transacao');
+
 
 //==============================================================================================
 // CRUD USUARIO
@@ -100,15 +102,15 @@ Route::get('/ata_enviar/{id}',  [AtasController::class, 'ata_enviar'])->name('at
 
 
 //==============================================================================================
-// CADASTRAR NOVA LOJA
+// CRUD  LOJA
 Route::get('/nova_loja',  [LojasController::class, 'nova_loja'])->name('nova_loja');
 Route::post('/submit_nova_loja',  [LojasController::class, 'submit_nova_loja'])->name('submit_nova_loja');
 
 Route::get('/lojas',  [LojasController::class, 'index'])->name('lojas');
 
 Route::get('/ver_loja/{id}',  [LojasController::class, 'ver_loja'])->name('ver_loja');
-Route::get('/editar_loja',  [LojasController::class, 'editar_loja'])->name('editar_loja');
-Route::get('/submit_editar_loja',  [LojasController::class, 'submit_editar_loja'])->name('submit_editar_loja');
+Route::get('/editar_loja/{id}',  [LojasController::class, 'editar_loja'])->name('editar_loja');
+Route::post('/submit_editar_loja',  [LojasController::class, 'submit_editar_loja'])->name('submit_editar_loja');
 
 
 

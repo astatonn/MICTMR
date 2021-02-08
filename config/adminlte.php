@@ -254,19 +254,8 @@ return [
         [
             'text'    => 'Lojas',
             'icon'    => 'fas fa-fw fa-place-of-worship',
-            'submenu' => [
-                [
-                    'text' => 'Visualizar',
-                    'url'  => '/lojas',
-                    'icon' => 'fas fa-fw fa-eye'
-                ],
-                [
-                    'text'    => 'Cadastrar',
-                    'url'     => '/nova_loja',
-                    'icon' => 'fas fa-fw fa-plus'
+            'url'     => '/lojas'
            
-                ],
-            ],
         ],
 
         [

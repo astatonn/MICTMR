@@ -151,7 +151,8 @@ use Illuminate\Support\Facades\Crypt;
                                                             <a
                                                                 href="{{ route('ver_loja', ['id' => Crypt::encrypt($loja->id)]) }}"><i
                                                                     class="fas fa-eye btn btn-sm btn-primary"></i></a>
-                                                            <a href="{{ route('editar_loja') }}"><i
+                                                                    <a
+                                                                    href="{{ route('editar_loja', ['id' => Crypt::encrypt($loja->id)]) }}"><i
                                                                     class="fas fa-edit btn btn-sm btn-warning"></i></a>
                                                         </div>
                                                     </td>
