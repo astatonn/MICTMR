@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\entrada_fins;
+use App\Models\mensalidades;
 use App\Models\saida_fins;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 
@@ -22,17 +24,47 @@ class FinanceiroController extends Controller
             return redirect()->route('home');
         }
 
-        $entradaFinanceiro = entrada_fins::orderByDesc('created_at')->with('User')->get();
+        // CONSULTA DE TODOS OS REGISTROS
+        $entradaFinanceiro = entrada_fins::orderByDesc('created_at')->with('User')->get(); // 
         $saidaFinanceiro = saida_fins::orderByDesc('created_at')->with('users')->get();
+
+        // SOMA TOTAL DE VALORES DO ANO
+        $valorTotalEntradaAno = entrada_fins::whereRaw("YEAR(`entrada_fins`.`created_at`) = YEAR(NOW())")->sum('valor');
+        $valorTotalSaidaAno = saida_fins::whereRaw("YEAR(`saida_fins`.`created_at`) = YEAR(NOW())")->sum('valor');
+
+        // BALANÇO PATRIMONIAL
+        $totalEntrada   = entrada_fins::sum('valor');
+        $totalSaida     = saida_fins::sum('valor');
+        $balanco = $totalEntrada - $totalSaida;
+
+        // COLEÇÃO DE DADOS COM VALORES SEPARADOS POR TIPO NO MES
+        $entradasPorTipo = collect(entrada_fins::whereRaw("YEAR(`entrada_fins`.`created_at`) = YEAR(NOW())")->whereRaw("MONTH(`entrada_fins`.`created_at`) = MONTH(NOW())")->get())
+        ->groupBy(function ($item) {
+            return $item->tipo;
+        })->map(function ($item) {
+            return $item->sum('valor');
+        });
+        $saidasPorTipo = collect(saida_fins::whereRaw("YEAR(`saida_fins`.`created_at`) = YEAR(NOW())")->whereRaw("MONTH(`saida_fins`.`created_at`) = MONTH(NOW())")->get())
+        ->groupBy(function ($item) {
+            return $item->tipo;
+        })->map(function ($item) {
+            return $item->sum('valor');
+        });
         
+        // CONTROLE DE MENSALIDADES
+        $quantidadeUsuarios = User::where('lojas','1')->where('situacao', '1')->count();
+        $faltaMensalidadeMes = mensalidades::whereRaw("YEAR(`mensalidades`.`referencia`) = YEAR(NOW())")->whereRaw("MONTH(`mensalidades`.`referencia`) = MONTH(NOW())")->where('status','0');
 
 
-        return view ('financeiro.index', [
+        dd($saidasPorTipo);
 
-            'entradas'       => $entradaFinanceiro,
-            'saidas'         => $saidaFinanceiro,
-            'permission'    => $session
-        ]);
+
+        // return view ('financeiro.index', [
+
+        //     'entradas'       => $entradaFinanceiro,
+        //     'saidas'         => $saidaFinanceiro,
+        //     'permission'    => $session
+        // ]);
     }
 
 

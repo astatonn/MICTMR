@@ -15,6 +15,7 @@ class CreateMensalidadesTable extends Migration
     {
         Schema::create('mensalidades', function (Blueprint $table) {
             $table->id();
+            $table->tinyInteger('status');
             $table->date('referencia');
             $table->timestamps();
 

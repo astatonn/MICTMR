@@ -82,7 +82,7 @@ use Illuminate\Support\Facades\Crypt;
                                     <tbody>
 
                                         @foreach ($entradas as $entrada)
-                                            <tr role="row" class="bg-success color-palette">
+                                            <tr role="row" class=" ">
 
 
                                                 <td>{{ $entrada->created_at->format('d/m/Y') }} </td>
@@ -97,7 +97,7 @@ use Illuminate\Support\Facades\Crypt;
                                             </tr>
                                         @endforeach
                                         @foreach ($saidas as $saida)
-                                            <tr role="row" class="bg-danger color-palette">
+                                            <tr role="row" class="">
 
 
                                                 <td>{{ $saida->created_at->format('d/m/Y') }} </td>
