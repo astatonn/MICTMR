@@ -7,7 +7,7 @@ use App\Models\mensalidades;
 use App\Models\saida_fins;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 class FinanceiroController extends Controller
 {
@@ -25,12 +25,12 @@ class FinanceiroController extends Controller
         }
 
         // CONSULTA DE TODOS OS REGISTROS
-        $entradaFinanceiro = entrada_fins::orderByDesc('created_at')->with('User')->get(); // 
-        $saidaFinanceiro = saida_fins::orderByDesc('created_at')->with('users')->get();
+        $entradaFinanceiro  = entrada_fins::orderByDesc('created_at')->with('User')->get(); // 
+        $saidaFinanceiro    = saida_fins::orderByDesc('created_at')->with('users')->get();
 
         // SOMA TOTAL DE VALORES DO ANO
-        $valorTotalEntradaAno = entrada_fins::whereRaw("YEAR(`entrada_fins`.`created_at`) = YEAR(NOW())")->sum('valor');
-        $valorTotalSaidaAno = saida_fins::whereRaw("YEAR(`saida_fins`.`created_at`) = YEAR(NOW())")->sum('valor');
+        $valorTotalEntradaAno   = entrada_fins::whereRaw("YEAR(`entrada_fins`.`created_at`) = YEAR(NOW())")->sum('valor');
+        $valorTotalSaidaAno     = saida_fins::whereRaw("YEAR(`saida_fins`.`created_at`) = YEAR(NOW())")->sum('valor');
 
         // BALANÇO PATRIMONIAL
         $totalEntrada   = entrada_fins::sum('valor');
@@ -38,33 +38,59 @@ class FinanceiroController extends Controller
         $balanco = $totalEntrada - $totalSaida;
 
         // COLEÇÃO DE DADOS COM VALORES SEPARADOS POR TIPO NO MES
-        $entradasPorTipo = collect(entrada_fins::whereRaw("YEAR(`entrada_fins`.`created_at`) = YEAR(NOW())")->whereRaw("MONTH(`entrada_fins`.`created_at`) = MONTH(NOW())")->get())
-        ->groupBy(function ($item) {
-            return $item->tipo;
-        })->map(function ($item) {
-            return $item->sum('valor');
-        });
-        $saidasPorTipo = collect(saida_fins::whereRaw("YEAR(`saida_fins`.`created_at`) = YEAR(NOW())")->whereRaw("MONTH(`saida_fins`.`created_at`) = MONTH(NOW())")->get())
-        ->groupBy(function ($item) {
-            return $item->tipo;
-        })->map(function ($item) {
-            return $item->sum('valor');
-        });
+        $entradas = collect(DB::select('SELECT tipo,SUM(valor) as valor, YEAR(created_at) as ano, MONTH(created_at) as mes
+        FROM entrada_fins
+        GROUP BY YEAR(created_at), MONTH(created_at), tipo
+        ORDER BY YEAR(created_at) DESC, MONTH (created_at) DESC
+        '))->groupBy('ano');
+
+        foreach($entradas as $key=> $s){
+            $entradasPorMes[]=($entradas[$key]->groupBy('mes'));      
+        }
+
+        $saidas = collect(DB::select('SELECT tipo,SUM(valor) as valor, YEAR(created_at) as ano, MONTH(created_at) as mes
+        FROM saida_fins
+        GROUP BY YEAR(created_at), MONTH(created_at), tipo
+        ORDER BY YEAR(created_at) DESC, MONTH (created_at) DESC
+        '))->groupBy('ano');
+
+        foreach($saidas as $key=> $s){
+            $saidasPorMes[]=($saidas[$key]->groupBy('mes'));      
+        }
+
+        
+        
         
         // CONTROLE DE MENSALIDADES
-        $quantidadeUsuarios = User::where('lojas','1')->where('situacao', '1')->count();
-        $faltaMensalidadeMes = mensalidades::whereRaw("YEAR(`mensalidades`.`referencia`) = YEAR(NOW())")->whereRaw("MONTH(`mensalidades`.`referencia`) = MONTH(NOW())")->where('status','0');
+        // command criado para criar automaticamente as linhas no banco->php artisan monthlypayment:create
+        $mensalidades = collect(DB::select('SELECT users.name, users.grau, YEAR(mensalidades.created_at) as ano, MONTH(mensalidades.created_at) as mes, mensalidades.user_id, mensalidades.status
+        FROM mensalidades
+        LEFT JOIN users
+        ON mensalidades.user_id = users.id
+        GROUP BY YEAR(mensalidades.created_at), MONTH(mensalidades.created_at), user_id
+        ORDER BY YEAR(mensalidades.created_at) DESC, MONTH (mensalidades.created_at) DESC
+        '))->groupBy('ano');
 
+        foreach($mensalidades as $key=> $s){
+            $mensalidadesAgrupadas[]=($mensalidades[$key]->groupBy('mes'));      
+        }
+        dd ($mensalidadesAgrupadas);
 
-        dd($saidasPorTipo);
+        // $faltaMensalidadeMes = mensalidades::whereRaw("YEAR(`mensalidades`.`referencia`) = YEAR(NOW())")->whereRaw("MONTH(`mensalidades`.`referencia`) = MONTH(NOW())")->where('status','0');
+        
+        
+        return view ('financeiro.index', [
 
-
-        // return view ('financeiro.index', [
-
-        //     'entradas'       => $entradaFinanceiro,
-        //     'saidas'         => $saidaFinanceiro,
-        //     'permission'    => $session
-        // ]);
+            'listaEntradas'         => $entradaFinanceiro,
+            'listaSaidas'           => $saidaFinanceiro,
+            'totalEntradaAno'           => $valorTotalEntradaAno,
+            'totalSaidaAno'             => $valorTotalSaidaAno,
+            'permission'        => $session,
+            'saidasPorMes'              => $saidasPorMes,
+            'entradasPorMes'            => $entradasPorMes,
+            'mensalidades'          => $mensalidades,
+            'balancoPatrimonial'    => $balanco
+        ]);
     }
 
 

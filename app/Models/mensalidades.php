@@ -11,6 +11,6 @@ class mensalidades extends Model
 
     public function users()
     {
-        return $this->belongsToMany(users::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

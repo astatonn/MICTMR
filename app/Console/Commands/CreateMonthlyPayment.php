@@ -42,13 +42,13 @@ class CreateMonthlyPayment extends Command
         $users = User::where('loja_id','1')->where('situacao', '1')->get();
         $mensalidades = mensalidades::whereRaw("YEAR(`mensalidades`.`created_at`) = YEAR(NOW())")->whereRaw("MONTH(`mensalidades`.`created_at`) = MONTH(NOW())")->get();
         
-        if($mensalidades->count() == 0){
+        if($mensalidades->count() != $users->count()){
             mensalidades::whereRaw("YEAR(`mensalidades`.`created_at`) = YEAR(NOW())")->whereRaw("MONTH(`mensalidades`.`created_at`) = MONTH(NOW())")->delete();
 
-            $criaMensalidade = new mensalidades();
+            
             foreach ($users as $user){
+                $criaMensalidade = new mensalidades();
                 $criaMensalidade->status = 0; /* 0 = NÃO PAGO | 1 = PAGO */
-                $criaMensalidade->referencia = date('Y').date('m').'01';
                 $criaMensalidade->user_id = $user->id;
                 $criaMensalidade->save();
             }   
