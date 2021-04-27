@@ -11,8 +11,7 @@ use App\Http\Controllers\RelatoriosController;
 use App\Http\Controllers\AtasController;
 use App\Http\Controllers\LojasController;
 use App\Http\Controllers\MainController;
-
-
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return redirect('/home');
@@ -111,8 +110,6 @@ Route::get('/lojas',  [LojasController::class, 'index'])->name('lojas');
 Route::get('/ver_loja/{id}',  [LojasController::class, 'ver_loja'])->name('ver_loja');
 Route::get('/editar_loja/{id}',  [LojasController::class, 'editar_loja'])->name('editar_loja');
 Route::post('/submit_editar_loja',  [LojasController::class, 'submit_editar_loja'])->name('submit_editar_loja');
-
-
 
 
 

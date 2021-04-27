@@ -26,18 +26,18 @@ use Illuminate\Support\Facades\Crypt;
         </div>
     </div><!-- /.container-fluid -->
 @stop
-{{--
-1 - ADMIN
+{{-- 1 - ADMIN
 2 - USUÁRIO CONVENCIONAL
 3 - TESOUREIRO
 4 - VENERÁVEL
-5 - SECRETÁRIO
---}}
+5 - SECRETÁRIO --}}
 
 
 @section('content')
 
-
+    <div class="container" style="width:300px; height: 300px">
+        <canvas id="myChart" width="100" height="100"></canvas>
+    </div>
     <div class="row">
         <div class="card-body">
             <div class="card">
@@ -81,7 +81,7 @@ use Illuminate\Support\Facades\Crypt;
                                     </thead>
                                     <tbody>
 
-                                        @foreach ($entradas as $entrada)
+                                        @foreach ($entradaFinanceiro as $entrada)
                                             <tr role="row" class=" ">
 
 
@@ -96,7 +96,7 @@ use Illuminate\Support\Facades\Crypt;
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        @foreach ($saidas as $saida)
+                                        @foreach ($saidaFinanceiro as $saida)
                                             <tr role="row" class="">
 
 
@@ -127,6 +127,7 @@ use Illuminate\Support\Facades\Crypt;
                                     </tfoot>
 
                                 </table>
+
                             </div>
                         </div>
 
@@ -139,8 +140,6 @@ use Illuminate\Support\Facades\Crypt;
 
         <!-- ./row -->
     </div>
-
-
 
 
 
@@ -203,4 +202,59 @@ use Illuminate\Support\Facades\Crypt;
         });
 
     </script>
+    @php
+        $saidas = $saidasPorMes['2021']->toArray();
+        $valor = [];
+        $tipo = [];
+        for ($i=3; $i <= 12 ; $i++){
+            if (isset($saidas[$i])){
+                foreach ($saidas[$i] as $s){
+                    $valor[] = $s->valor;
+                    $tipo[] = "\"".$s->tipo."\"";
+                }
+               
+            }
+            
+        }
+    @endphp
+
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [  {!! implode (',', $tipo ) !!}  ],
+        datasets: [{
+            label: '2021',
+            data: [ {{ implode (',', $valor ) }} ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: false
+            }
+        }
+    }
+});
+</script>
+
 @endsection

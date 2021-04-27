@@ -69,6 +69,7 @@ use Illuminate\Support\Facades\Crypt;
                                                     <td>{{ $loja->titulo }}</td>
                                                     <td>{{ $loja->nome }}</td>
                                                     <td>{{ $loja->oriente }}</td>
+                                                    
                                                     <td>
                                                         <div class="btn-group">
                                                             <a
@@ -135,6 +136,7 @@ use Illuminate\Support\Facades\Crypt;
                                                 <th>Título</th>
                                                 <th>Nome</th>
                                                 <th>Oriente</th>
+
                                                 <th><i class="fas fa-cog"></i></th>
                                             </tr>
                                         </thead>
