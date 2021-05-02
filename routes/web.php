@@ -114,4 +114,3 @@ Route::post('/submit_editar_loja',  [LojasController::class, 'submit_editar_loja
 
 
 
-
